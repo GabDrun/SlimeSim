@@ -1,5 +1,4 @@
-# SlimeSim2
-Simple visual smlime simulation
+Simple visual slime simulation
 
 Egzamples of differend starting parameters:
 
