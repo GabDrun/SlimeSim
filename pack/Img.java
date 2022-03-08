@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
+import java.util.concurrent.TimeUnit;
 
 public class Img {
     private JFrame frame;
@@ -35,7 +36,7 @@ public class Img {
             { 0.0083333f, 0.0166666f, 0.0083333f,
                     0.0166666f, 0.89f, 0.0166666f,
                     0.0083333f, 0.0166666f, 0.0083333f });
-    BufferedImageOp opBlur = new ConvolveOp(blurSlowFade3x3);
+    BufferedImageOp opBlur = new ConvolveOp(boxBlur3x3);
     Kernel sum3x3 = new Kernel(3, 3, new float[]
             { 1, 1, 1,
                     1, 1, 1,
@@ -123,13 +124,6 @@ public class Img {
        // ++counter;
     }
 
-    public Graphics2D getG2D(){
-        //updatePicture();
-        return myImage.createGraphics();
-        //myImage.
-        //return (Graphics2D)myImage.getGraphics();
-       // g2D.drawImage();
-    }
     public void display(){
         if(frame==null){
             frame=new JFrame();
@@ -142,10 +136,11 @@ public class Img {
             frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
-            //weightMap = sumFilter.filter(myImage,null);
+
+//            for (int i = 0; i < 1000; i++)frame.setVisible(true);    // wait
+
         }else {
             label.setIcon(new ImageIcon(myImage));
-        //    weightMap = sumFilter.filter(myImage,null);
         }
     }
 }

@@ -5,16 +5,19 @@ import java.util.Random;
 
 public class Point {
     private static final Random rand = new Random();
+    private static final boolean reverse = true;
     private static float speed = 1f;
-    private static final float turnAngle = 0.3f;
-    private static final float checkAngle = 0.3f;
+    private static float turnAngle = 0.1f;
+    private static final float checkAngle = 0.1f;
     private static final float randomTurnAngle = 0.01f;
     private static int maxWidth;
     private static int maxHeight;
     private static Img map;
     //private Color white = new Color(255,255,255);
-    private static final Color white = new Color(0,204,0);
-    private static final int white_rgb = white.getRGB();
+    //private static final Color green = new Color(0,204,0);
+    //private static final Color reddish = new Color(245,147,115);
+    private static final Color yellow = new Color(250,227,119);
+    private static final int myColor = yellow.getRGB();
     private static final int SPAWN_RADIUS = 1;
 
     private float angle;
@@ -27,12 +30,12 @@ public class Point {
         Point.map = map;
         maxWidth = map.getWidth()-1;
         maxHeight = map.getHeight()-1;
-//        this.x = rand.nextInt(0, maxWidth);
-//        this.y = rand.nextInt(0, maxHeight);
+        this.x = rand.nextInt(0, maxWidth);
+        this.y = rand.nextInt(0, maxHeight);
         this.x = rand.nextInt(maxWidth/2 -SPAWN_RADIUS, maxWidth/2 +SPAWN_RADIUS);
         this.y = rand.nextInt(maxHeight/2 -SPAWN_RADIUS, maxHeight/2 +SPAWN_RADIUS);
         this.angle = rand.nextFloat(0,6.28318f);
-      //  this.angle = 0f;
+        //this.angle = 0f;
 
     }
 
@@ -106,6 +109,6 @@ public class Point {
 
     public void update(){
         move();
-        map.brighten((int)x, (int)y, white_rgb);
+        map.brighten((int)x, (int)y, myColor);
     }
 }
