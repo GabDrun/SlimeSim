@@ -2,6 +2,8 @@
 Simple visual smlime simulation
 
 Egzamples of differend starting parameters:
+
+
 https://user-images.githubusercontent.com/90328572/157265972-1b17eb2d-6be3-4091-a509-67402aaa9fe1.mp4
 
 
