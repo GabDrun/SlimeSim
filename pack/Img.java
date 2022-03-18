@@ -101,21 +101,21 @@ public class Img {
             }
         } ));
 
-        controlPanel.add(sliderToPanel("Trun Angle", new DoubleJSlider(0.0f, 6.25f, Point.getTurnAngle(), 20){
+        controlPanel.add(sliderToPanel("Trun Angle", new DoubleJSlider(0.0f, 6.28f, Point.getTurnAngle(), 100){
             @Override
             public void setRealValue(float fl){
                 Point.setTurnAngle(fl);
             }
         } ));
 
-        controlPanel.add(sliderToPanel("Check Angle", new DoubleJSlider(0.0f, 6.25f, Point.getCheckAngle(), 20){
+        controlPanel.add(sliderToPanel("Check Angle", new DoubleJSlider(0.0f, 6.28f, Point.getCheckAngle(), 100){
             @Override
             public void setRealValue(float fl){
                 Point.setCheckAngle(fl);
             }
         } ));
 
-        controlPanel.add(sliderToPanel("Max Random Turn Angle", new DoubleJSlider(0.01f, 6.25f, Point.getRandomTurnAngle(), 100){
+        controlPanel.add(sliderToPanel("Max Random Turn Angle", new DoubleJSlider(0.01f, 6.28f, Point.getRandomTurnAngle(), 100){
             @Override
             public void setRealValue(float fl){
                 Point.setRandomTurnAngle(fl);
@@ -135,6 +135,30 @@ public class Img {
                 if((int)getScaledValue()==0)
                     Point.setReverse(false);
                 else Point.setReverse(true);
+            }
+        } ));
+
+        controlPanel.add(sliderToPanel("Color: Red", new DoubleJSlider(0, 255, Point.getR(), 1){
+            @Override
+            public void setRealValue(float fl){
+                Point.setR((int)fl);
+                Point.setMyColorInt();
+            }
+        } ));
+
+        controlPanel.add(sliderToPanel("Color: Green", new DoubleJSlider(0, 255, Point.getG(), 1){
+            @Override
+            public void setRealValue(float fl){
+                Point.setG((int)fl);
+                Point.setMyColorInt();
+            }
+        } ));
+
+        controlPanel.add(sliderToPanel("Color: Blue", new DoubleJSlider(0, 255, Point.getB(), 1){
+            @Override
+            public void setRealValue(float fl){
+                Point.setB((int)fl);
+                Point.setMyColorInt();
             }
         } ));
 
@@ -165,7 +189,7 @@ public class Img {
 
 //            frame.setLocationRelativeTo(null);
 //            frame.setSize(getMyImage().getWidth()+26, getMyImage().getHeight()+130); // Maybe just set location?
-            frame.setLocation(100, 100);
+            frame.setLocation(100, 30);
 
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.pack();
@@ -221,5 +245,15 @@ public class Img {
 
     private void setPointCount(int pointCount) {
         this.pointCount = pointCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Img{" +
+                "blur3x3=" + blur3x3 +
+                ", width=" + width +
+                ", height=" + height +
+                ", pointCount=" + pointCount +
+                '}';
     }
 }

@@ -14,14 +14,14 @@ public class Point {
     private static int visionRange = 20;
     private static boolean reverse = false;
 
+    private static int r = 250;
+    private static int g = 227;
+    private static int b = 119;
+
     private static int maxWidth;
     private static int maxHeight;
 
-    private static final Color white = new Color(255,255,255);
-    private static final Color green = new Color(0,204,0);
-    private static final Color reddish = new Color(245,147,115);
-    private static final Color yellow = new Color(250,227,119);
-    private static final int myColor = yellow.getRGB();
+    private static int myColorInt;
 
     private float x;
     private float y;
@@ -31,10 +31,9 @@ public class Point {
 
     Point(Img map){
         Point.map = map;
+        setMyColorInt();
         setMaxHeight(map.getHeight()-1);
         setMaxWidth(map.getWidth()-1);
-//        setX(rand.nextInt(0, maxWidth));
-//        setY(rand.nextInt(0, maxHeight));
         setX(rand.nextInt(getMaxWidth()/2 - spawnRadius, getMaxWidth()/2 + spawnRadius));
         setY(rand.nextInt(getMaxHeight()/2 - spawnRadius, getMaxHeight()/2 + spawnRadius));
         setAngle(rand.nextFloat(0, 2 * (float)Math.PI));
@@ -94,7 +93,7 @@ public class Point {
         turnPoint();
         move();
         collisionCheck();
-        map.brighten((int)getX(), (int)getY(), myColor);
+        map.brighten((int)getX(), (int)getY(), myColorInt);
     }
 
     private float getX() {
@@ -192,6 +191,38 @@ public class Point {
 
     public static void setReverse(boolean reverse) {
         Point.reverse = reverse;
+    }
+
+    public static int getMyColorInt() {
+        return myColorInt;
+    }
+
+    public static void setMyColorInt(){
+        myColorInt = new Color(getR(), getG(), getB()).getRGB();
+    }
+
+    public static int getR() {
+        return r;
+    }
+
+    public static void setR(int r) {
+        Point.r = r;
+    }
+
+    public static int getG() {
+        return g;
+    }
+
+    public static void setG(int g) {
+        Point.g = g;
+    }
+
+    public static int getB() {
+        return b;
+    }
+
+    public static void setB(int b) {
+        Point.b = b;
     }
 
     @Override
