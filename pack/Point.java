@@ -34,10 +34,10 @@ public class Point {
         setMyColorInt();
         setMaxHeight(map.getHeight()-1);
         setMaxWidth(map.getWidth()-1);
-        setX(rand.nextInt(getMaxWidth()/2 - spawnRadius, getMaxWidth()/2 + spawnRadius));
-        setY(rand.nextInt(getMaxHeight()/2 - spawnRadius, getMaxHeight()/2 + spawnRadius));
+        setX(rand.nextInt((getMaxWidth() / 2) - spawnRadius, (getMaxWidth() / 2) + spawnRadius));
+        setY(rand.nextInt((getMaxHeight() / 2) - spawnRadius, (getMaxHeight() / 2) + spawnRadius));
         setAngle(rand.nextFloat(0, 2 * (float)Math.PI));
-        setSpeed(1f + rand.nextFloat(-0.7f,2f));
+        setSpeed(1f + rand.nextFloat(-0.7f, 2f));
     }
 
     private void turnPoint(){
@@ -117,7 +117,7 @@ public class Point {
     }
 
     private void setSpeed(float speed) {
-        if (speed <=10f && speed > 0.1)
+        if (speed <= 10f && speed > 0.1)
             this.speed = speed;
     }
 

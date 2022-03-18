@@ -5,7 +5,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 
 class DoubleJSlider extends JSlider {
@@ -39,7 +38,7 @@ class DoubleJSlider extends JSlider {
         });
     }
 
-    public void setRealValue(float value){};
+    public void setRealValue(float value){}
 
     public double getScaledValue() {
         return ((double) super.getValue()) / this.scale;

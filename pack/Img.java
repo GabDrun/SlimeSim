@@ -12,16 +12,16 @@ import java.awt.image.Kernel;
 public class Img {
     private JFrame frame;
     private JLabel label;
-    private JPanel controlPanel;
     private BufferedImageOp opBlur;
     Point[] points;
 
-    JFormattedTextField field;
-
-    private Kernel blur3x3 = new Kernel(3, 3, new float[]
+    private final Kernel blur3x3 = new Kernel(3, 3, new float[]
             { 0.111f, 0.111f, 0.111f,
                     0.111f, 0.111f, 0.111f,
                     0.111f, 0.111f, 0.111f });
+    private boolean showFPS = true;
+    private static int counter;
+    private long oldTime = System.currentTimeMillis(), time;
 
     private int width;
     private int height;
@@ -30,18 +30,19 @@ public class Img {
     private BufferedImage myImage;
 
 
-    Img(int width, int height, int pointCount){
-        init(width, height, pointCount, blur3x3);
+    Img(int width, int height, int pointCount, boolean showFPS){
+        init(width, height, pointCount, blur3x3, showFPS);
     }
 
-    Img(int width, int height, int pointCount, Kernel k){
-        init(width, height, pointCount, k);
+    Img(int width, int height, int pointCount, Kernel k, boolean showFPS){
+        init(width, height, pointCount, k, showFPS);
     }
 
-    private void init(int width, int height, int pointCount, Kernel k){
+    private void init(int width, int height, int pointCount, Kernel k, boolean showFPS){
         setWidth(width);
         setHeight(height);
         setPointCount(pointCount);
+        setShowFPS(showFPS);
 
         setMyImage(new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB));
 
@@ -49,6 +50,7 @@ public class Img {
         for(int i = 0; i < points.length; i++){
             points[i] = new Point(this);
         }
+
         if(k != null){
             setOpBlur(k);
         }
@@ -56,7 +58,7 @@ public class Img {
 
     private void restartSim(){          // TODO fix: Restarting leaves after effect
         System.out.println("Restarting!");
-        init(getWidth(),getHeight(),getPointCount(),null);
+        init(getWidth(),getHeight(),getPointCount(),null, isShowFPS());
     }
 
     public void brighten(int x, int y, int color){
@@ -85,9 +87,9 @@ public class Img {
 
     private JPanel sliderToPanel(String name, DoubleJSlider slider){
         JPanel imgPanel = new JPanel(new BorderLayout());
-        imgPanel.add(new JLabel(name),BorderLayout.WEST);
-        imgPanel.add(slider.getText(),BorderLayout.NORTH);
-        imgPanel.add(slider,BorderLayout.SOUTH);
+        imgPanel.add(new JLabel(name), BorderLayout.WEST);
+        imgPanel.add(slider.getText(), BorderLayout.NORTH);
+        imgPanel.add(slider, BorderLayout.SOUTH);
         return imgPanel;
     }
 
@@ -101,7 +103,7 @@ public class Img {
             }
         } ));
 
-        controlPanel.add(sliderToPanel("Trun Angle", new DoubleJSlider(0.0f, 6.28f, Point.getTurnAngle(), 100){
+        controlPanel.add(sliderToPanel("Turn Angle", new DoubleJSlider(0.0f, 6.28f, Point.getTurnAngle(), 100){
             @Override
             public void setRealValue(float fl){
                 Point.setTurnAngle(fl);
@@ -174,21 +176,29 @@ public class Img {
         return controlPanel;
     }
 
+    private void printFPS(){
+        if(++counter%100==0){
+            time = System.currentTimeMillis();
+            System.out.println("Fps: " + 100000/(time-oldTime)); // 100000 = 1000 * 100
+            oldTime = time;
+        }
+    }
+
     private void display(){
         if(frame == null){
-            frame = (new JFrame());
-            label = (new JLabel());
-            label.setIcon(new ImageIcon(getMyImage()));
+            JPanel controlPanel;
             controlPanel = createControls();
 
+            label = (new JLabel());
+            label.setIcon(new ImageIcon(getMyImage()));
+
+            frame = (new JFrame());
             frame.setTitle("Slime Simulation");
             frame.setLayout(new BorderLayout());
 
             frame.getContentPane().add(label, BorderLayout.NORTH);
             frame.getContentPane().add(controlPanel, BorderLayout.SOUTH);
 
-//            frame.setLocationRelativeTo(null);
-//            frame.setSize(getMyImage().getWidth()+26, getMyImage().getHeight()+130); // Maybe just set location?
             frame.setLocation(100, 30);
 
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -200,9 +210,14 @@ public class Img {
     }
 
     public void updatePicture(){
+        if(isShowFPS()){
+            printFPS();
+        }
+
         for (Point point : points) {
             point.update();
         }
+
         blur();
         display();
     }
@@ -245,6 +260,14 @@ public class Img {
 
     private void setPointCount(int pointCount) {
         this.pointCount = pointCount;
+    }
+
+    public boolean isShowFPS() {
+        return showFPS;
+    }
+
+    public void setShowFPS(boolean showFPS) {
+        this.showFPS = showFPS;
     }
 
     @Override
