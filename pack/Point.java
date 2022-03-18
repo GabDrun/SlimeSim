@@ -7,11 +7,12 @@ public class Point {
     private static final Random rand = new Random();
     private static Img map;
 
-    private static final int SPAWN_RADIUS = 1;
-    private static final float TURN_ANGLE = 0.1f;
-    private static final float CHECK_ANGLE = 0.1f;
-    private static final float RANDOM_TURN_ANGLE = 0.25f;
-    private static int VISION_RANGE = 20;
+    private static int spawnRadius = 1;
+    private static float turnAngle = 0.1f;
+    private static float checkAngle = 0.1f;
+    private static float randomTurnAngle = 0.25f;
+    private static int visionRange = 20;
+    private static boolean reverse = false;
 
     private static int maxWidth;
     private static int maxHeight;
@@ -34,24 +35,36 @@ public class Point {
         setMaxWidth(map.getWidth()-1);
 //        setX(rand.nextInt(0, maxWidth));
 //        setY(rand.nextInt(0, maxHeight));
-        setX(rand.nextInt(getMaxWidth()/2 -SPAWN_RADIUS, getMaxWidth()/2 +SPAWN_RADIUS));
-        setY(rand.nextInt(getMaxHeight()/2 -SPAWN_RADIUS, getMaxHeight()/2 +SPAWN_RADIUS));
+        setX(rand.nextInt(getMaxWidth()/2 - spawnRadius, getMaxWidth()/2 + spawnRadius));
+        setY(rand.nextInt(getMaxHeight()/2 - spawnRadius, getMaxHeight()/2 + spawnRadius));
         setAngle(rand.nextFloat(0, 2 * (float)Math.PI));
         setSpeed(1f + rand.nextFloat(-0.7f,2f));
     }
 
     private void turnPoint(){
-        float leftAngle = getAngle() + CHECK_ANGLE;
-        float rightAngle = getAngle() - CHECK_ANGLE;
-        int left = map.checkRegionBrightness(getX(), getY(), leftAngle, VISION_RANGE);//& 0xFF;
-        int straight = map.checkRegionBrightness(getX(), getY(), getAngle(), VISION_RANGE);//& 0xFF;
-        int right = map.checkRegionBrightness(getX(), getY(), rightAngle, VISION_RANGE);//& 0xFF;
+        float leftAngle = getAngle() + checkAngle;
+        float rightAngle = getAngle() - checkAngle;
+        int left = map.checkRegionBrightness(getX(), getY(), leftAngle, visionRange);//& 0xFF;
+        int straight = map.checkRegionBrightness(getX(), getY(), getAngle(), visionRange);//& 0xFF;
+        int right = map.checkRegionBrightness(getX(), getY(), rightAngle, visionRange);//& 0xFF;
 
-        if(left>straight && left>right)
-            setAngle(getAngle() + TURN_ANGLE + rand.nextFloat(-RANDOM_TURN_ANGLE, RANDOM_TURN_ANGLE));               // flip signs for avoiding effect
-        else if(right>straight && right>left)
-            setAngle(getAngle() - TURN_ANGLE + rand.nextFloat(-RANDOM_TURN_ANGLE, RANDOM_TURN_ANGLE));               // flip signs for avoiding effect
-        else setAngle(getAngle() + rand.nextFloat(-RANDOM_TURN_ANGLE, RANDOM_TURN_ANGLE));
+        if(isReverse()){  // Turn away from light
+            if (left < straight && left < right) {
+                setAngle(getAngle() + turnAngle + rand.nextFloat(-randomTurnAngle, randomTurnAngle));
+            } else if (right < straight && right < left) {
+                setAngle(getAngle() - turnAngle + rand.nextFloat(-randomTurnAngle, randomTurnAngle));
+            } else {
+                setAngle(getAngle() + rand.nextFloat(-randomTurnAngle, randomTurnAngle));
+            }
+        }else {     // Follow the light
+            if (left > straight && left > right) {
+                setAngle(getAngle() + turnAngle + rand.nextFloat(-randomTurnAngle, randomTurnAngle));
+            } else if (right > straight && right > left) {
+                setAngle(getAngle() - turnAngle + rand.nextFloat(-randomTurnAngle, randomTurnAngle));
+            } else {
+                setAngle(getAngle() + rand.nextFloat(-randomTurnAngle, randomTurnAngle));
+            }
+        }
     }
 
     private void collisionCheck(){
@@ -105,7 +118,8 @@ public class Point {
     }
 
     private void setSpeed(float speed) {
-        this.speed = speed;
+        if (speed <=10f && speed > 0.1)
+            this.speed = speed;
     }
 
     private float getAngle() {
@@ -130,6 +144,54 @@ public class Point {
 
     private static void setMaxHeight(int maxHeight) {
         Point.maxHeight = maxHeight;
+    }
+
+    public static int getSpawnRadius() {
+        return spawnRadius;
+    }
+
+    public static void setSpawnRadius(int spawnRadius) {
+        Point.spawnRadius = spawnRadius;
+    }
+
+    public static float getTurnAngle() {
+        return turnAngle;
+    }
+
+    public static void setTurnAngle(float turnAngle) {
+        Point.turnAngle = turnAngle;
+    }
+
+    public static float getCheckAngle() {
+        return checkAngle;
+    }
+
+    public static void setCheckAngle(float checkAngle) {
+        Point.checkAngle = checkAngle;
+    }
+
+    public static float getRandomTurnAngle() {
+        return randomTurnAngle;
+    }
+
+    public static void setRandomTurnAngle(float randomTurnAngle) {
+        Point.randomTurnAngle = randomTurnAngle;
+    }
+
+    public static int getVisionRange() {
+        return visionRange;
+    }
+
+    public static void setVisionRange(int visionRange) {
+        Point.visionRange = visionRange;
+    }
+
+    public static boolean isReverse() {
+        return reverse;
+    }
+
+    public static void setReverse(boolean reverse) {
+        Point.reverse = reverse;
     }
 
     @Override
