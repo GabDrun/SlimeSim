@@ -14,9 +14,9 @@ public class Point {
     private static int visionRange = 20;
     private static boolean reverse = false;
 
-    private static int r = 250;
-    private static int g = 227;
-    private static int b = 119;
+    private static int redOrHue = 132;
+    private static int greenOrSaturation = 137;
+    private static int blueOrBrightness = 229;
 
     private static int maxWidth;
     private static int maxHeight;
@@ -198,31 +198,32 @@ public class Point {
     }
 
     public static void setMyColorInt(){
-        myColorInt = new Color(getR(), getG(), getB()).getRGB();
+       // myColorInt = new Color(getRedOrHue(), getGreenOrSaturation(), getBlueOrBrightness()).getRGB();                                          // If rgb
+        myColorInt = Color.HSBtoRGB((float) getRedOrHue()/255, (float) getGreenOrSaturation()/255, (float) getBlueOrBrightness()/255);      // If Hsv
     }
 
-    public static int getR() {
-        return r;
+    public static int getRedOrHue() {
+        return redOrHue;
     }
 
-    public static void setR(int r) {
-        Point.r = r;
+    public static void setRedOrHue(int r) {
+        Point.redOrHue = r;
     }
 
-    public static int getG() {
-        return g;
+    public static int getGreenOrSaturation() {
+        return greenOrSaturation;
     }
 
-    public static void setG(int g) {
-        Point.g = g;
+    public static void setGreenOrSaturation(int g) {
+        Point.greenOrSaturation = g;
     }
 
-    public static int getB() {
-        return b;
+    public static int getBlueOrBrightness() {
+        return blueOrBrightness;
     }
 
-    public static void setB(int b) {
-        Point.b = b;
+    public static void setBlueOrBrightness(int b) {
+        Point.blueOrBrightness = b;
     }
 
     @Override

@@ -140,26 +140,26 @@ public class Img {
             }
         } ));
 
-        controlPanel.add(sliderToPanel("Color: Red", new DoubleJSlider(0, 255, Point.getR(), 1){
+        controlPanel.add(sliderToPanel("Color: Hue", new DoubleJSlider(0, 255, Point.getRedOrHue(), 1){
             @Override
             public void setRealValue(float fl){
-                Point.setR((int)fl);
+                Point.setRedOrHue((int)fl);
                 Point.setMyColorInt();
             }
         } ));
 
-        controlPanel.add(sliderToPanel("Color: Green", new DoubleJSlider(0, 255, Point.getG(), 1){
+        controlPanel.add(sliderToPanel("Color: Saturation", new DoubleJSlider(0, 255, Point.getGreenOrSaturation(), 1){
             @Override
             public void setRealValue(float fl){
-                Point.setG((int)fl);
+                Point.setGreenOrSaturation((int)fl);
                 Point.setMyColorInt();
             }
         } ));
 
-        controlPanel.add(sliderToPanel("Color: Blue", new DoubleJSlider(0, 255, Point.getB(), 1){
+        controlPanel.add(sliderToPanel("Color: Brightness", new DoubleJSlider(0, 255, Point.getBlueOrBrightness(), 1){
             @Override
             public void setRealValue(float fl){
-                Point.setB((int)fl);
+                Point.setBlueOrBrightness((int)fl);
                 Point.setMyColorInt();
             }
         } ));
