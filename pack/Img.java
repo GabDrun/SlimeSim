@@ -76,10 +76,10 @@ public class Img {
         int val = 0;
         for(int i = -1; i < 1; i++){
             for(int j = -1; j < 1; j++){
-                if(x + i >= getWidth() || y + j >= getHeight() || x + i <= 0 || y + j <= 0){
+                if(x + i >= getWidth() - 1 || y + j >= getHeight() - 1 || x + i <= 0 || y + j <= 0){
                     continue;
                 }
-                val += getMyImage().getRGB((int)x + i,(int)y + j);
+                val += getMyImage().getRGB(Math.round(x) + i,Math.round(y) + j);
             }
         }
         return val;
